@@ -12,7 +12,7 @@ readme = "README.md"
 keywords = ["iOS", "TLS", "SSL", "crypto", "keychain"]
 exclude = ["test/*"]
 
-[dependencies]
+[target.'cfg(target_vendor = "apple")'.dependencies]
 security-framework-sys = { version = "0.3.1", path = "../security-framework-sys" }
 core-foundation = "0.6.3"
 core-foundation-sys = "0.6.2"
