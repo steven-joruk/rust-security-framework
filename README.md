@@ -6,6 +6,31 @@
 
 Bindings to the Apple's `Security.framework`. Allows use of TLS and Keychain from Rust.
 
+## Bindings
+
+Topics implemented, in reference to [Apple's Security Framework documentation](https://developer.apple.com/documentation/security?language=objc):
+
+* Authorization and Authentication
+  * [ ] Authorization Plug-ins
+  * [x] Authorization Services, except:
+    * [ ] AuthorizationCopyRightsAsync
+  * [ ] ~Password AutoFill~
+  * [ ] Sessions
+  * [ ] Shared Web Credentials
+* Secure Data
+  * [x] Keychain Services
+* Secure Code
+  * [ ] Code Signing Services
+* Cryptography
+  * [ ] ASN.1
+  * [ ] Cryptographic Message Syntax Services
+  * [x] Randomization Services
+  * [x] Security Transforms
+* Legacy Interfaces
+  * [ ] Common Security Services Manager
+  * [x] Secure Transport
+  * [ ] Secure Download
+
 ## License
 
 Licensed under either of
