@@ -18,17 +18,41 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v2
 
-      - name: Install stable toolchain
+      - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
 
-      - name: Run cargo test
+      - name: Run cargo test for macOS 10.9 features
+        env: MACOSX_DEPLOYMENT_TARGET=10.9
         uses: actions-rs/cargo@v1
         with:
-          command: test
+          command: test --features OSX_10_9
+
+      - name: Run cargo test for macOS 10.10 features
+        env: MACOSX_DEPLOYMENT_TARGET=10.10
+        uses: actions-rs/cargo@v1
+        with:
+          command: test --features OSX_10_10
+
+      - name: Run cargo test for macOS 10.11 features
+        env: MACOSX_DEPLOYMENT_TARGET=10.11
+        uses: actions-rs/cargo@v1
+        with:
+          command: test --features OSX_10_11
+
+      - name: Run cargo test for macOS 10.12 features
+        env: MACOSX_DEPLOYMENT_TARGET=10.12
+        uses: actions-rs/cargo@v1
+        with:
+          command: test --features OSX_10_12
+
+      - name: Run cargo test for iOS features
+        uses: actions-rs/cargo@v1
+        with:
+          command: test --target aarch64-apple-ios
 
   lints:
     name: Lints
