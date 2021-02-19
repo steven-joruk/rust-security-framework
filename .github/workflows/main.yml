@@ -10,25 +10,51 @@ jobs:
     name: Tests
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ macos-latest ]
         rust: [ 1.42.0, stable, nightly ]
+
+        combo: [ {
+          deployment_target: "10.9",
+          feature: OSX_10_12
+        }, {
+          deployment_target: "10.10",
+          feature: OSX_10_10
+        }, {
+          deployment_target: "10.11",
+          feature: OSX_10_11
+        }, {
+          deployment_target: "10.12",
+          feature: OSX_10_12
+        }]
 
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
 
-      - name: Install stable toolchain
+      - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
 
-      - name: Run cargo test
+      - name: Run cargo build for each deployment target's respective feature
+        env:
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.combo.deployment_target }}
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --features ${{ matrix.combo.feature }} --manifest-path security-framework/Cargo.toml
+
+      - name: Run cargo test for each deployment target's respective feature
+        env:
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.combo.deployment_target }}
         uses: actions-rs/cargo@v1
         with:
           command: test
+          args: --features ${{ matrix.combo.feature }} --manifest-path security-framework/Cargo.toml
 
   lints:
     name: Lints
